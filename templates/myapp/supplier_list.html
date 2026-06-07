@@ -1,0 +1,23 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Suppliers{% endblock %}
+
+{% block content %}
+<a href="{% url 'supplier_add' %}" class="btn btn-add">+ Add Supplier</a>
+
+<table>
+<tr>
+    <th>Name</th><th>Contact</th><th>Address</th><th>Actions</th>
+</tr>
+{% for s in suppliers %}
+<tr>
+    <td>{{ s.name }}</td>
+    <td>{{ s.contact }}</td>
+    <td>{{ s.address }}</td>
+    <td>
+        <a href="{% url 'supplier_edit' s.id %}" class="btn btn-edit">Edit</a>
+        <a href="{% url 'supplier_delete' s.id %}" class="btn btn-delete">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

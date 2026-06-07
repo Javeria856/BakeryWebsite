@@ -1,0 +1,23 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Delivery Staff{% endblock %}
+{% block content %}
+
+<a href="{% url 'delivery_staff_add' %}" class="btn btn-add">+ Add Rider</a>
+
+<table>
+<tr>
+    <th>Staff</th><th>Vehicle No</th><th>Actions</th>
+</tr>
+{% for r in riders %}
+<tr>
+    <td>{{ r.staff.name }}</td>
+    <td>{{ r.vehicle_no }}</td>
+    <td>
+        <a href="{% url 'delivery_staff_edit' r.id %}" class="btn btn-edit">Edit</a>
+        <a href="{% url 'delivery_staff_delete' r.id %}" class="btn btn-delete">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

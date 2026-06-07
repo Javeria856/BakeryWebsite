@@ -1,0 +1,24 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Payment Methods{% endblock %}
+
+{% block content %}
+<a href="{% url 'payment_method_add' %}" class="btn btn-add">+ Add Method</a>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Method Name</th>
+        <th>Actions</th>
+    </tr>
+    {% for m in methods %}
+    <tr>
+        <td>{{ m.id }}</td>
+        <td>{{ m.method_name }}</td>
+        <td>
+            <a href="{% url 'payment_method_edit' m.id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'payment_method_delete' m.id %}" class="btn btn-delete">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

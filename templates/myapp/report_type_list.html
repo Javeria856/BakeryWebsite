@@ -1,0 +1,22 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Report Types{% endblock %}
+
+{% block content %}
+<a href="{% url 'report_type_add' %}" class="btn btn-add">+ Add Report Type</a>
+
+<table>
+<tr>
+    <th>Name</th>
+    <th>Actions</th>
+</tr>
+{% for t in types %}
+<tr>
+    <td>{{ t.name }}</td>
+    <td>
+        <a class="btn btn-edit" href="{% url 'report_type_edit' t.id %}">Edit</a>
+        <a class="btn btn-delete" href="{% url 'report_type_delete' t.id %}">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

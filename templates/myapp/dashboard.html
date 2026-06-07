@@ -1,0 +1,229 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+
+<style>
+.dashboard-container {
+    padding: 25px;
+    background: #f7f5f0; /* light bakery-style background */
+    min-height: 100vh;
+}
+
+.dashboard-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #4a2c2a;
+    letter-spacing: 0.5px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+/* CARD STYLING */
+.dashboard-card {
+    background: rgba(255, 255, 255, 0.9); /* slightly transparent glass effect */
+    backdrop-filter: blur(8px); /* glass blur */
+    border-radius: 16px;
+    padding: 25px 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    border-left: 6px solid #d2691e;
+}
+
+/* Gradient hover + glow effect */
+.dashboard-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(210, 105, 30, 0.35); /* warm glow */
+    background: linear-gradient(135deg, #f6d365, #fda085, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradientMove 6s ease infinite;
+}
+
+/* Smooth moving gradient animation */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Left border gradient remains */
+.dashboard-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #d2691e, #8b4513);
+    border-radius: 8px 0 0 8px;
+}
+.dashboard-card::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.dashboard-card:hover::after {
+    opacity: 1;
+    animation: shimmerMove 1.5s linear;
+}
+
+/* Shimmer animation */
+@keyframes shimmerMove {
+    0% { transform: rotate(25deg) translateX(-100%); }
+    100% { transform: rotate(25deg) translateX(100%); }
+}
+
+/* ICON STYLING */
+.card-icon {
+    font-size: 45px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #fff3e0;
+    border-radius: 50%;
+    color: #d2691e;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+}
+
+.dashboard-card:hover .card-icon {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+}
+
+/* TEXT STYLING */
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.card-value {
+    font-size: 34px;
+    font-weight: 700;
+    color: #3c2f2f;
+}
+
+/* LOW STOCK BADGE */
+.low-stock-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #dc3545;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.low-stock-badge:hover {
+    transform: scale(1.1);
+}
+
+.low-stock-link {
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .dashboard-title {
+        font-size: 24px;
+    }
+
+    .card-value {
+        font-size: 28px;
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 36px;
+    }
+}
+</style>
+
+
+<div class="dashboard-container">
+    <h2 class="dashboard-title">🍞 Bakery Management Dashboard</h2>
+
+    
+
+    <div class="cards-grid">
+        <div class="dashboard-card">
+
+
+            
+            <div class="card-icon">👩‍🍳</div>
+            <div class="card-title">Total Staff</div>
+            <div class="card-value">{{ staff_count }}</div>
+        </div>
+
+      <div class="dashboard-card">
+    <div class="card-icon">🧁</div>
+    <div class="card-title">Total Products</div>
+    <div class="card-value">{{ products_count }}</div>
+</div>
+
+
+        <div class="dashboard-card">
+            <div class="card-icon">💰</div>
+            <div class="card-title">Payroll Entries</div>
+            <div class="card-value">{{ payroll_count }}</div>
+        </div>
+
+       <div class="dashboard-card">
+  {% if low_stock_count > 0 %}
+<a href="{% url 'low_stock_inventory' %}" class="low-stock-link">
+    <div class="low-stock-badge">
+        {{ low_stock_count }} Low Stock
+    </div>
+</a>
+{% endif %}
+
+
+
+    <div class="card-icon">📦</div>
+    <div class="card-title">Inventory Items</div>
+    <div class="card-value">{{ inventory_count }}</div>
+</div>
+
+
+        <div class="dashboard-card">
+            <div class="card-icon">🚚</div>
+            <div class="card-title">Suppliers</div>
+            <div class="card-value">{{ supplier_count }}</div>
+        </div>
+        
+    </div>
+    
+    
+</div>
+{% endblock %}

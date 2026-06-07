@@ -1,0 +1,30 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Delivery Tracking{% endblock %}
+
+{% block content %}
+<h2>Delivery Tracking</h2>
+
+<a href="{% url 'tracking_add' %}">Add Tracking</a>
+
+<table>
+<tr>
+    <th>Delivery</th>
+    <th>Status</th>
+    <th>Updated At</th>
+    <th>Actions</th>
+</tr>
+
+{% for t in tracking %}
+<tr>
+    <td>{{ t.delivery }}</td>
+    <td>{{ t.status }}</td>
+    <td>{{ t.updated_at }}</td>
+    <td>
+        <a href="{% url 'tracking_edit' t.id %}">Edit</a>
+        <a href="{% url 'tracking_delete' t.id %}">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

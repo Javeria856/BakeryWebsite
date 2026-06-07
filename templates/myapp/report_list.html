@@ -1,0 +1,21 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Generated Reports{% endblock %}
+
+{% block content %}
+<a href="{% url 'report_add' %}" class="btn btn-add">+ Generate Report</a>
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Period</th>
+        <th>Generated At</th>
+    </tr>
+    {% for r in reports %}
+    <tr>
+        <td>{{ r.report_type.name }}</td>
+        <td>{{ r.start_date }} → {{ r.end_date }}</td>
+        <td>{{ r.generated_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

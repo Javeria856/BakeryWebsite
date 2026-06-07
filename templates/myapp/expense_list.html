@@ -1,0 +1,19 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Expense Summary{% endblock %}
+
+{% block content %}
+<a href="{% url 'expense_add' %}" class="btn btn-add">+ Add Expense</a>
+
+<table>
+    <tr>
+        <th>Report</th>
+        <th>Total Expenses</th>
+    </tr>
+    {% for e in expenses %}
+    <tr>
+        <td>{{ e.report }}</td>
+        <td>{{ e.total_expenses }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

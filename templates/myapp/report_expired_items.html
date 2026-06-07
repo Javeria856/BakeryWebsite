@@ -1,0 +1,45 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Expired Items Report{% endblock %}
+
+{% block content %}
+<h2>Expired Inventory Items</h2>
+
+<canvas id="expiredChart" height="120"></canvas>
+
+<!-- Django JSON Injection -->
+{{ labels|json_script:"expired-labels" }}
+{{ data|json_script:"expired-data" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = JSON.parse(
+        document.getElementById('expired-labels').textContent
+    );
+
+    const data = JSON.parse(
+        document.getElementById('expired-data').textContent
+    );
+
+    const ctx = document.getElementById('expiredChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Expired Quantity',
+                data: data,
+                backgroundColor: '#6b7280'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

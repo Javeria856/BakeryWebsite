@@ -1,0 +1,31 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Profit & Loss{% endblock %}
+
+{% block content %}
+
+<style>
+.profit { color: green; font-weight: 600; }
+.loss { color: red; font-weight: 600; }
+</style>
+
+<table>
+<tr>
+    <th>Period</th>
+    <th>Total Sales</th>
+    <th>Total Expenses</th>
+    <th>Net Profit</th>
+</tr>
+
+{% for r in records %}
+<tr>
+    <td>{{ r.report.start_date }} → {{ r.report.end_date }}</td>
+    <td>{{ r.total_sales }}</td>
+    <td>{{ r.total_expenses }}</td>
+    <td class="{% if r.net_profit >= 0 %}profit{% else %}loss{% endif %}">
+        {{ r.net_profit }}
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

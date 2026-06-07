@@ -1,0 +1,28 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<a href="{% url 'product_add' %}" class="btn btn-add">+ Add Product</a>
+
+<table>
+<tr>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Price</th>
+    <th>Actions</th>
+</tr>
+{% for p in products %}
+<tr>
+    <td>{{ p.name }}</td>
+    <td>{{ p.category.category_name }}</td>
+    <td>{{ p.price }}</td>
+    <td>
+        <a href="{% url 'product_edit' p.id %}" class="btn btn-edit">Edit</a> |
+        <a href="{% url 'product_delete' p.id %}"
+           onclick="return confirm('Delete this product?')" class="btn btn-delete">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<a href="{% url 'order_add' %}" class="btn btn-add">+ Add Order</a>
+
+<table>
+<tr>
+    <th>ID</th><th>Customer</th><th>Date</th><th>Status</th><th>Actions</th>
+</tr>
+{% for o in orders %}
+<tr>
+    <td>{{ o.id }}</td>
+    <td>{{ o.customer }}</td>
+    <td>{{ o.order_date }}</td>
+    <td>{{ o.status }}</td>
+    <td>
+        <a class="btn btn-edit" href="{% url 'order_edit' o.id %}">Edit</a>
+        <a class="btn btn-delete" href="{% url 'order_delete' o.id %}">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

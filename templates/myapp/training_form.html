@@ -1,0 +1,20 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+
+<h2>Training Session</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">
+        Save Training
+    </button>
+
+    <a href="{% url 'training_list' %}" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>
+
+
+{% endblock %}

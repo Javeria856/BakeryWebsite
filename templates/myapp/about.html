@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About - Ideal Bakery</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f4ef;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #8B4513, #FFD700);
+        }
+
+        nav .logo {
+            width: 120px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        nav ul li a.active {
+            color: #fffacd;
+        }
+
+        /* About Section */
+        .about-container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .about-container h1 {
+            text-align: center;
+            color: #6b3e1d;
+            margin-bottom: 20px;
+        }
+
+        .about-container p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #333;
+            text-align: justify;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            background: #6b3e1d;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <img src="{% static 'images/logo.png' %}" class="logo" alt="Bakery Logo">
+    <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'menu' %}">Menu</a></li>
+        <li><a href="{% url 'about' %}" class="active">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- About Content -->
+<div class="about-container">
+    <h1>About Ideal Bakery 🍰</h1>
+
+    <p>
+        At Ideal Bakery, we believe in creating moments of happiness through our
+        freshly baked delights. From soft cakes and creamy pastries to crunchy
+        cookies and specialty breads, every item is crafted with love and care.
+    </p>
+
+    <p>
+        We use only the finest ingredients to ensure premium quality and taste.
+        Our passion for baking and commitment to customer satisfaction make us
+        a trusted name for sweetness and celebration.
+    </p>
+
+    <p>
+        Whether it’s a birthday, wedding, or a simple craving, Ideal Bakery is
+        always ready to serve happiness — one bite at a time.
+    </p>
+</div>
+
+<!-- Footer -->
+<footer>
+    © 2025 Ideal Bakery. All Rights Reserved.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Monthly Waste Analysis{% endblock %}
+
+{% block content %}
+<h2>Monthly Waste Analysis</h2>
+
+{% if alerts and True in alerts %}
+<div style="
+    background:#fee2e2;
+    color:#991b1b;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    font-weight:600;
+">
+    ⚠ Waste limit exceeded for one or more months!
+    (Limit: {{ limit }})
+</div>
+{% endif %}
+
+
+<canvas id="monthlyWasteChart" height="120"></canvas>
+
+<!-- Secure JSON injection -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{{ labels|json_script:"waste-labels" }}
+{{ data|json_script:"waste-data" }}
+{{ alerts|json_script:"waste-alerts" }}
+
+<script>
+    const labels = JSON.parse(
+        document.getElementById('waste-labels').textContent
+    );
+    const data = JSON.parse(
+        document.getElementById('waste-data').textContent
+    );
+    const alerts = JSON.parse(
+        document.getElementById('waste-alerts').textContent
+    );
+
+    const colors = alerts.map(a =>
+        a ? 'rgba(220,38,38,0.8)' : 'rgba(37,99,235,0.7)'
+    );
+
+    new Chart(
+        document.getElementById('monthlyWasteChart'),
+        {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Expired Quantity',
+                    data: data,
+                    backgroundColor: colors
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        }
+    );
+</script>
+
+{% endblock %}

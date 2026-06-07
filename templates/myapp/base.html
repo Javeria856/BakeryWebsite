@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bakery Admin</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #1f2937;
+    color: #fff;
+    padding: 20px;
+
+    /* ✅ ADD THESE */
+    overflow-y: auto;
+    scrollbar-width: thin;               /* Firefox */
+    scrollbar-color: #4b5563 transparent;
+}
+/* Sidebar scrollbar styling */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+    border-radius: 10px;
+}
+
+
+        .sidebar h1 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a,
+        .menu-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover,
+        .menu-title:hover {
+            background: #374151;
+            color: #fff;
+        }
+
+        /* ACTIVE LINK */
+        .sidebar a.active {
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* DROPDOWN */
+        .menu-group {
+            margin-bottom: 10px;
+        }
+
+        .submenu {
+            display: none;
+            margin-left: 20px;
+            border-left: 2px solid #374151;
+            padding-left: 10px;
+        }
+
+        .submenu a {
+            font-size: 13px;
+            padding: 10px 15px;
+        }
+
+        .menu-group.open .submenu {
+            display: block;
+        }
+
+        .menu-group.open .menu-title i.chevron {
+            transform: rotate(90deg);
+        }
+
+        .menu-title i.chevron {
+            margin-left: auto;
+            transition: transform 0.2s ease;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            margin-left: 240px;
+            padding: 25px;
+        }
+
+        /* TOP BAR */
+        .topbar {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            border-collapse: collapse;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px;
+            font-size: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #374151;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 7px 12px;
+            border-radius: 5px;
+            font-size: 13px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-add { background: #16a34a; }
+        .btn-edit { background: #2563eb; }
+        .btn-delete { background: #dc2626; }
+    </style>
+</head>
+<body>
+
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h1>Bakery Admin</h1>
+
+   <a href="{% url 'dashboard' %}"
+   class="{% if request.path == '/dashboard/' %}active{% endif %}">
+    <i class="fa-solid fa-gauge"></i> Dashboard
+</a>
+
+
+    <div class="menu-group" id="staffMenu">
+        <div class="menu-title" onclick="toggleMenu('staffMenu')">
+            <i class="fa-solid fa-users"></i>
+            Staff Management
+            <i class="fa-solid fa-chevron-right chevron"></i>
+        </div>
+
+        <div class="submenu">
+            <a href="{% url 'staff_list' %}"
+               class="{% if 'staff' in request.path %}active{% endif %}">
+                <i class="fa-solid fa-user"></i> Staff
+            </a>
+
+            <a href="{% url 'attendance_list' %}"
+               class="{% if 'attendance' in request.path %}active{% endif %}">
+                <i class="fa-solid fa-calendar-check"></i> Attendance
+            </a>
+
+            <a href="{% url 'payroll_list' %}"
+               class="{% if 'payroll' in request.path %}active{% endif %}">
+                <i class="fa-solid fa-money-bill-wave"></i> Payroll
+            </a>
+
+            <a href="{% url 'leave_list' %}"
+               class="{% if 'leave' in request.path %}active{% endif %}">
+                <i class="fa-solid fa-plane-departure"></i> Leave Requests
+            </a>
+
+            <a href="{% url 'training_list' %}"
+               class="{% if 'training' in request.path %}active{% endif %}">
+                <i class="fa-solid fa-chalkboard-user"></i> Training Sessions
+            </a>
+        </div>
+    </div>
+    <div class="menu-group" id="inventoryMenu">
+    <div class="menu-title" onclick="toggleMenu('inventoryMenu')">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        Inventory & Suppliers
+        <i class="fa-solid fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="submenu">
+        <a href="{% url 'inventory_list' %}"
+           class="{% if 'inventory' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-warehouse"></i> Inventory
+        </a>
+
+        <a href="{% url 'supplier_list' %}"
+           class="{% if 'suppliers' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-truck-field"></i> Suppliers
+        </a>
+        <a href="{% url 'stock_movement_list' %}"
+   class="{% if 'stock' in request.path %}active{% endif %}">
+    <i class="fa-solid fa-arrow-right-arrow-left"></i> Stock Movements
+</a>
+
+<a href="{% url 'purchase_order_list' %}"
+   class="{% if 'purchase-orders' in request.path %}active{% endif %}">
+    <i class="fa-solid fa-file-invoice"></i> Purchase Orders
+</a>
+
+    </div>
+</div>
+
+<div class="menu-group" id="reportMenu">
+    <div class="menu-title" onclick="toggleMenu('reportMenu')">
+        <i class="fa-solid fa-chart-line"></i>
+        Reports
+        <i class="fa-solid fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="submenu">
+        <a href="{% url 'low_stock_report' %}">
+            <i class="fa-solid fa-triangle-exclamation"></i> Low Stock
+        </a>
+
+        <a href="{% url 'expired_items_report' %}">
+            <i class="fa-solid fa-skull-crossbones"></i> Expired Items
+        </a>
+        <a href="{% url 'report_monthly_waste' %}">
+    <i class="fa-solid fa-chart-line"></i>
+    Monthly Waste
+</a>
+
+    </div>
+</div>
+
+
+<div class="menu-group" id="productMenu">
+    <div class="menu-title" onclick="toggleMenu('productMenu')">
+        <i class="fa-solid fa-burger"></i>
+        Products & Menu
+        <i class="fa-solid fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="submenu">
+        <a href="{% url 'category_list' %}"
+           class="{% if 'categories' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-layer-group"></i> Categories
+        </a>
+
+        <a href="{% url 'product_list' %}"
+           class="{% if 'products' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-cookie"></i> Products
+        </a>
+
+        <a href="{% url 'customization_list' %}"
+           class="{% if 'customizations' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-palette"></i> Customizations
+        </a>
+        <a href="{% url 'recipe_list' %}">
+    <i class="fa-solid fa-book"></i> Recipes
+</a>
+
+<a href="{% url 'recipe_ingredient_list' %}">
+    <i class="fa-solid fa-box"></i> Recipe Ingredients
+</a>
+
+    </div>
+</div>
+<div class="menu-group" id="customerMenu">
+    <div class="menu-title" onclick="toggleMenu('customerMenu')">
+        <i class="fa-solid fa-user-group"></i>
+        Customers
+        <i class="fa-solid fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="submenu">
+        <a href="{% url 'customer_list' %}"
+           class="{% if 'customers' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-user"></i> Customers
+        </a>
+
+        <a href="{% url 'customer_address_list' %}"
+           class="{% if 'customer-addresses' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-location-dot"></i> Addresses
+        </a>
+        <a href="{% url 'feedback_list' %}"
+   class="{% if 'feedback' in request.path %}active{% endif %}">
+    <i class="fa-solid fa-star"></i> Feedback & Ratings
+</a>
+
+    </div>
+</div>
+<div class="menu-group" id="ordersMenu">
+    <div class="menu-title" onclick="toggleMenu('ordersMenu')">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Orders & Sales
+        <i class="fa-solid fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="submenu">
+        <a href="{% url 'order_list' %}"
+           class="{% if 'order' in request.path and 'detail' not in request.path %}active{% endif %}">
+            <i class="fa-solid fa-receipt"></i> Orders
+        </a>
+
+        <a href="{% url 'order_detail_list' %}"
+           class="{% if 'order-detail' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-list"></i> Order Items
+        </a>
+
+        <a href="{% url 'payment_list' %}";
+           class="{% if 'payment' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-credit-card"></i> Payments
+        </a>
+
+        <a href="{% url 'payment_method_list' %}"
+           class="{% if 'payment-method' in request.path %}active{% endif %}">
+            <i class="fa-solid fa-wallet"></i> Payment Methods
+        </a>
+    </div>
+</div>
+<div class="menu-group" id="deliveryMenu">
+    <div class="menu-title" onclick="toggleMenu('deliveryMenu')">
+        <i class="fa-solid fa-truck"></i>
+        Delivery & Logistics
+        <i class="fa-solid fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="submenu">
+        <a href="{% url 'delivery_list' %}">Deliveries</a>
+        <a href="{% url 'delivery_staff_list' %}">Delivery Staff</a>
+         <a href="{% url 'route_list' %}">Routes</a>
+    <a href="{% url 'tracking_list' %}">Tracking</a>
+    </div>
+</div>
+<div class="menu-group" id="financeMenu">
+    <div class="menu-title" onclick="toggleMenu('financeMenu')">
+        <i class="fa-solid fa-coins"></i>
+        Finance & Analytics
+        <i class="fa-solid fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="submenu">
+        <a href="{% url 'report_type_list' %}">Report Types</a>
+        <a href="{% url 'report_list' %}">Generated Reports</a>
+        <a href="{% url 'expense_list' %}">Expense Summary</a>
+        <a href="{% url 'profit_loss_list' %}">
+    <i class="fa-solid fa-chart-line"></i> Profit & Loss
+</a>
+
+    </div>
+</div>
+
+
+</div>
+
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="topbar">
+        <h2>{% block title %}{% endblock %}</h2>
+        <div>Admin</div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+    function toggleMenu(id) {
+        document.getElementById(id).classList.toggle('open');
+    }
+
+    // Auto-open Staff menu if any submenu is active
+    if (
+        window.location.pathname.includes('staff') ||
+        window.location.pathname.includes('attendance') ||
+        window.location.pathname.includes('payroll') ||
+        window.location.pathname.includes('leave') ||
+        window.location.pathname.includes('training')
+    ) {
+        document.getElementById('staffMenu').classList.add('open');
+    }
+
+    // Auto-open Inventory menu if any submenu is active
+    if (
+        window.location.pathname.includes('inventory') ||
+        window.location.pathname.includes('suppliers')||
+         window.location.pathname.includes('stock') ||
+    window.location.pathname.includes('purchase-orders')
+    ) {
+        document.getElementById('inventoryMenu').classList.add('open');
+    }
+
+    if (window.location.pathname.includes('reports')) {
+    document.getElementById('reportMenu').classList.add('open');
+}
+
+
+    if (
+    window.location.pathname.includes('categories') ||
+    window.location.pathname.includes('products') ||
+    window.location.pathname.includes('customizations')||
+     window.location.pathname.includes('recipes') ||
+    window.location.pathname.includes('recipe-ingredients')
+) {
+    document.getElementById('productMenu').classList.add('open');
+}
+
+ if (
+        window.location.pathname.includes('customers') ||
+        window.location.pathname.includes('customer-addresses') ||
+    window.location.pathname.includes('feedback')
+    ) {
+        document.getElementById('customerMenu')?.classList.add('open');
+    }
+     if (
+        window.location.pathname.includes('order') ||
+        window.location.pathname.includes('payment')
+    ) {
+        document.getElementById('ordersMenu')?.classList.add('open');
+    }
+    if (window.location.pathname.includes('deliver')
+    ||
+        window.location.pathname.includes('delivery staff')
+        ||
+        window.location.pathname.includes('routes')
+        ||
+        window.location.pathname.includes('tracking')) {
+    document.getElementById('deliveryMenu')?.classList.add('open');
+}
+if (
+    location.pathname.includes('report') ||
+    location.pathname.includes('expense')
+) {
+    document.getElementById('financeMenu').classList.add('open');
+}
+
+
+   
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</body>
+</html>

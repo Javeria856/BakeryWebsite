@@ -1,0 +1,40 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+
+<h2>Training Sessions</h2>
+
+<a href="{% url 'training_add' %}" class="btn btn-add">+ Add Traning sessions</a>
+<br><br>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Staff</th>
+            <th>Topic</th>
+            <th>Date</th>
+            <th>Remarks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in trainings %}
+        <tr>
+            <td>{{ t.staff.name }}</td>
+            <td>{{ t.topic }}</td>
+            <td>{{ t.date }}</td>
+            <td>{{ t.remarks }}</td>
+            <td>
+                <a href="{% url 'training_edit' t.id %}" class="btn btn-edit">Edit</a>
+                <a href="{% url 'training_delete' t.id %}" class="btn btn-delete">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No training sessions found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

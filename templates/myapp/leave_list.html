@@ -1,0 +1,31 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Leave Requests{% endblock %}
+
+{% block content %}
+<a href="{% url 'leave_add' %}" class="btn btn-add">+ Add Leave</a>
+<br><br>
+
+<table>
+    <tr>
+        <th>Staff</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for l in leaves %}
+    <tr>
+        <td>{{ l.staff.name }}</td>
+        <td>{{ l.start_date }}</td>
+        <td>{{ l.end_date }}</td>
+        <td>{{ l.reason }}</td>
+        <td>{{ l.status }}</td>
+        <td>
+            <a href="{% url 'leave_edit' l.id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'leave_delete' l.id %}" class="btn btn-delete">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

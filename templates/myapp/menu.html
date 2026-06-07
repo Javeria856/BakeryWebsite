@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ideal Bakery - Menu</title>
+
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        background-color: #fffaf0;
+        color: #333;
+    }
+
+    /* ---------- Navbar ---------- */
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 30px;
+        background: linear-gradient(90deg, #8B4513, #FFD700);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    }
+
+    nav .logo {
+        width: 130px;
+    }
+
+    nav ul {
+        display: flex;
+        list-style: none;
+    }
+
+    nav ul li {
+        margin-left: 25px;
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    nav ul li a.active {
+        color: #fffacd;
+    }
+
+    /* ---------- Header ---------- */
+    .menu-header {
+        text-align: center;
+        padding: 50px 20px;
+        background: linear-gradient(to right, #fff3cd, #ffe8a1);
+    }
+
+    .menu-header h1 {
+        font-size: 40px;
+        color: #8B4513;
+        margin-bottom: 10px;
+    }
+
+    .menu-header p {
+        font-size: 18px;
+        color: #555;
+    }
+
+    /* ---------- Menu Grid ---------- */
+    .menu-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+        padding: 50px;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    /* ---------- Menu Card ---------- */
+    .menu-item {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .menu-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+
+    .menu-item img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+        margin-bottom: 15px;
+    }
+
+    .menu-item h3 {
+        font-size: 22px;
+        color: #8B4513;
+        margin-bottom: 8px;
+    }
+
+    .menu-item p {
+        font-size: 15px;
+        color: #555;
+        margin-bottom: 8px;
+    }
+
+    .price {
+        font-size: 18px;
+        font-weight: bold;
+        color: #d2691e;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 768px) {
+        .menu-header h1 {
+            font-size: 30px;
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav>
+    <img src="{% static 'images/logo.png' %}" class="logo">
+    <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'menu' %}" class="active">Menu</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Header -->
+<div class="menu-header">
+    <h1>Our Delicious Treats 🍰</h1>
+    <p>Freshly baked items crafted with love</p>
+</div>
+
+<!-- Products -->
+<div class="menu-container">
+
+    <div class="menu-item">
+        <img src="https://i.pinimg.com/1200x/b1/e4/c4/b1e4c4b0ccf0c1ddbef00d067449994f.jpg">
+        <h3>Chocolate Cake</h3>
+        <p>Rich chocolate cake with ganache</p>
+        <p class="price">Rs. 800</p>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://i.pinimg.com/736x/e4/1a/38/e41a38224dfc9fc3dc5251bc38ec7393.jpg">
+        <h3>Pineapple Cake</h3>
+        <p>Fresh pineapple topping</p>
+        <p class="price">Rs. 600</p>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg">
+        <h3>Vanilla Cake</h3>
+        <p>Soft vanilla sponge cake</p>
+        <p class="price">Rs. 700</p>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg">
+        <h3>Strawberry Cake</h3>
+        <p>Fresh strawberries with cream</p>
+        <p class="price">Rs. 850</p>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://i.pinimg.com/1200x/31/ff/16/31ff16a22268adf6fe3bb8811a173777.jpg">
+        <h3>Chocolate Brownie</h3>
+        <p>Fudgy brownie with nuts</p>
+        <p class="price">Rs. 250</p>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg">
+        <h3>Chocolate Cookies</h3>
+        <p>Crunchy cookies with chips</p>
+        <p class="price">Rs. 400</p>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://i.pinimg.com/1200x/05/4b/1a/054b1ae2136808ae87e264fb7724f4c3.jpg">
+        <h3>Butter Croissant</h3>
+        <p>Flaky French croissant</p>
+        <p class="price">Rs. 350</p>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg">
+        <h3>Cupcakes</h3>
+        <p>Assorted creamy cupcakes</p>
+        <p class="price">Rs. 300</p>
+    </div>
+
+</div>
+
+</body>
+</html>

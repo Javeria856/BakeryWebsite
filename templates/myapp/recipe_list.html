@@ -1,0 +1,24 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Recipes{% endblock %}
+{% block content %}
+
+<a href="{% url 'recipe_add' %}" class="btn btn-add">Add Recipe</a>
+
+<table>
+<tr>
+    <th>Product</th>
+    <th>Actions</th>
+</tr>
+{% for r in recipes %}
+<tr>
+    <td>{{ r.product.name }}</td>
+    <td>
+        <a href="{% url 'recipe_edit' r.id %}" class="btn btn-edit">Edit</a>
+        <a href="{% url 'recipe_delete' r.id %}" class="btn btn-delete"
+           onclick="return confirm('Delete recipe?')">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

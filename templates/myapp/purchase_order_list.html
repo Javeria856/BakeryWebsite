@@ -1,0 +1,28 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Purchase Orders{% endblock %}
+
+{% block content %}
+<a href="{% url 'purchase_order_add' %}" class="btn btn-add">+ New Order</a>
+
+<table>
+    <tr>
+        <th>Supplier</th>
+        <th>Order Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for o in orders %}
+    <tr>
+        <td>{{ o.supplier.name }}</td>
+        <td>{{ o.order_date }}</td>
+        <td>{{ o.status }}</td>
+        <td>
+            <a href="{% url 'purchase_order_edit' o.id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'purchase_order_delete' o.id %}" class="btn btn-delete"
+               onclick="return confirm('Delete order?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

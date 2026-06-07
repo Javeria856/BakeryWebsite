@@ -1,0 +1,39 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+
+<h2>Low Stock Report</h2>
+
+<canvas id="lowStockChart" height="120"></canvas>
+
+{{ labels|json_script:"labels-data" }}
+{{ data|json_script:"values-data" }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = JSON.parse(
+        document.getElementById('labels-data').textContent
+    );
+
+    const data = JSON.parse(
+        document.getElementById('values-data').textContent
+    );
+
+    const ctx = document.getElementById('lowStockChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Remaining Quantity',
+                data: data,
+                backgroundColor: '#dc2626'
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Low Stock Inventory{% endblock %}
+
+{% block content %}
+<style>
+    .table-container {
+        padding: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    th, td {
+        padding: 14px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background: #8b4513;
+        color: white;
+    }
+
+    tr:hover {
+        background: #fff6f0;
+    }
+</style>
+
+<div class="table-container">
+    <h2>📉 Low Stock Inventory</h2>
+
+    {% if low_stock_items %}
+    <table>
+        <tr>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+        </tr>
+
+        {% for item in low_stock_items %}
+        <tr>
+            <td>{{ item.item_name }}</td>
+            <td style="color:red;font-weight:600;">
+                {{ item.quantity }}
+            </td>
+            <td>{{ item.unit }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>🎉 All inventory items are sufficiently stocked.</p>
+    {% endif %}
+</div>
+{% endblock %}

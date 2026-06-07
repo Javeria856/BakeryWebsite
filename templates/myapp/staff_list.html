@@ -1,0 +1,29 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Staff Management{% endblock %}
+
+{% block content %}
+<a href="{% url 'staff_add' %}" class="btn btn-add">+ Add Staff</a>
+<br><br>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th>Actions</th>
+    </tr>
+    {% for s in staff %}
+    <tr>
+        <td>{{ s.name }}</td>
+        <td>{{ s.phone }}</td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.salary }}</td>
+        <td>
+            <a href="{% url 'staff_edit' s.id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'staff_delete' s.id %}" class="btn btn-delete">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

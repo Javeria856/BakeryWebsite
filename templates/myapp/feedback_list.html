@@ -1,0 +1,32 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Customer Feedback{% endblock %}
+
+{% block content %}
+<a href="{% url 'feedback_add' %}" class="btn btn-add">
+    <i class="fa-solid fa-plus"></i> Add Feedback
+</a>
+
+<table>
+    <tr>
+        <th>Customer</th>
+        <th>Rating</th>
+        <th>Comments</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for f in feedbacks %}
+    <tr>
+        <td>{{ f.customer.name }}</td>
+        <td>{{ f.rating }} ★</td>
+        <td>{{ f.comments|truncatechars:40 }}</td>
+        <td>{{ f.created_at }}</td>
+        <td>
+            <a href="{% url 'feedback_edit' f.id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'feedback_delete' f.id %}" class="btn btn-delete"
+               onclick="return confirm('Delete feedback?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

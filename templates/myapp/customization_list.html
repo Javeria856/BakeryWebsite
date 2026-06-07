@@ -1,0 +1,28 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Customizations{% endblock %}
+
+{% block content %}
+<a href="{% url 'customization_add' %}" class="btn btn-add">+ Add Customization</a>
+
+<table>
+<tr>
+    <th>Product</th>
+    <th>Type</th>
+    <th>Extra Cost</th>
+    <th>Actions</th>
+</tr>
+{% for c in customizations %}
+<tr>
+    <td>{{ c.product.name }}</td>
+    <td>{{ c.customization_type }}</td>
+    <td>{{ c.extra_cost }}</td>
+    <td>
+        <a href="{% url 'customization_edit' c.id %}" class="btn btn-edit">Edit</a> |
+        <a href="{% url 'customization_delete' c.id %}"
+           onclick="return confirm('Delete this customization?')" class="btn btn-delete">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Sales Reports{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom:15px">
+    <button class="btn btn-add" onclick="showChart('daily')">Daily</button>
+    <button class="btn btn-edit" onclick="showChart('monthly')">Monthly</button>
+</div>
+
+<canvas id="dailyChart"></canvas>
+<canvas id="monthlyChart" style="display:none"></canvas>
+
+{{ daily_labels|json_script:"daily-labels" }}
+{{ daily_values|json_script:"daily-values" }}
+{{ monthly_labels|json_script:"monthly-labels" }}
+{{ monthly_values|json_script:"monthly-values" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const dailyLabels = JSON.parse(document.getElementById('daily-labels').textContent);
+const dailyData = JSON.parse(document.getElementById('daily-values').textContent);
+
+const monthlyLabels = JSON.parse(document.getElementById('monthly-labels').textContent);
+const monthlyData = JSON.parse(document.getElementById('monthly-values').textContent);
+
+const dailyChart = new Chart(document.getElementById('dailyChart'), {
+    type: 'line',
+    data: {
+        labels: dailyLabels,
+        datasets: [{
+            label: 'Daily Revenue',
+            data: dailyData,
+            borderWidth: 2,
+            tension: 0.4
+        }]
+    }
+});
+
+const monthlyChart = new Chart(document.getElementById('monthlyChart'), {
+    type: 'bar',
+    data: {
+        labels: monthlyLabels,
+        datasets: [{
+            label: 'Monthly Revenue',
+            data: monthlyData
+        }]
+    }
+});
+
+function showChart(type) {
+    document.getElementById('dailyChart').style.display =
+        type === 'daily' ? 'block' : 'none';
+    document.getElementById('monthlyChart').style.display =
+        type === 'monthly' ? 'block' : 'none';
+}
+</script>
+
+{% endblock %}

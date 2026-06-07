@@ -1,0 +1,28 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Delivery Routes{% endblock %}
+
+{% block content %}
+<h2>Delivery Routes</h2>
+
+<a href="{% url 'route_add' %}">Add Route</a>
+
+<table>
+<tr>
+    <th>Name</th>
+    <th>Area</th>
+    <th>Actions</th>
+</tr>
+
+{% for r in routes %}
+<tr>
+    <td>{{ r.route_name }}</td>
+    <td>{{ r.area }}</td>
+    <td>
+        <a href="{% url 'route_edit' r.id %}">Edit</a>
+        <a href="{% url 'route_delete' r.id %}">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

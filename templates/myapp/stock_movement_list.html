@@ -1,0 +1,30 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Stock Movements{% endblock %}
+
+{% block content %}
+<a href="{% url 'stock_movement_add' %}" class="btn btn-add">+ Add Movement</a>
+
+<table>
+    <tr>
+        <th>Item</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for m in movements %}
+    <tr>
+        <td>{{ m.inventory.item_name }}</td>
+        <td>{{ m.type }}</td>
+        <td>{{ m.quantity }}</td>
+        <td>{{ m.date }}</td>
+        <td>
+            <a href="{% url 'stock_movement_edit' m.id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'stock_movement_delete' m.id %}" class="btn btn-delete"
+               onclick="return confirm('Delete this movement?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

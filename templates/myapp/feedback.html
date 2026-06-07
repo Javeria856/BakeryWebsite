@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback - Ideal Bakery</title> 
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f8f4ef;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #8B4513;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #8B4513, #FFD700);
+        }
+        nav .logo { width: 120px; }
+        nav ul { list-style: none; display: flex; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: #fff; font-weight: bold; }
+        nav ul li a.active { color: #fffacd; }
+
+        /* Feedback Form */
+        #feedback-form {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 25px;
+            border-radius: 10px;
+            background-color: #fff8dc;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        #feedback-form input,
+        #feedback-form textarea,
+        #feedback-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        #feedback-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #8B4513;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #feedback-form button:hover {
+            background-color: #A0522D;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <img src="{% static 'images/logo.png' %}" class="logo">
+    <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'menu' %}">Menu</a></li>
+        <li><a href="{% url 'feedback' %}" class="active">Feedback</a></li>
+    </ul>
+</nav>
+
+<h1>Customer Feedback 💬</h1>
+<h2>Your opinion matters to us!</h2>
+
+<!-- Feedback Form -->
+<div id="feedback-form">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+
+    <select id="rating">
+        <option value="">Rate Our Service</option>
+        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+        <option value="4">⭐⭐⭐⭐ Very Good</option>
+        <option value="3">⭐⭐⭐ Good</option>
+        <option value="2">⭐⭐ Fair</option>
+        <option value="1">⭐ Poor</option>
+    </select>
+
+    <textarea id="message" rows="4" placeholder="Write your feedback..." required></textarea>
+
+    <button onclick="submitFeedback()">Submit Feedback</button>
+
+    <div class="thank-you" id="thank-you">
+        Thank you for your feedback! ❤️
+    </div>
+</div>
+
+<script>
+function submitFeedback(){
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const rating = document.getElementById('rating').value;
+    const message = document.getElementById('message').value.trim();
+
+    if(name === "" || email === "" || rating === "" || message === ""){
+        alert("Please fill all fields!");
+        return;
+    }
+
+    const feedbackData = { name, email, rating, message };
+    console.log("Feedback Submitted:", feedbackData);
+
+    document.getElementById('thank-you').style.display = "block";
+
+    document.getElementById('name').value = "";
+    document.getElementById('email').value = "";
+    document.getElementById('rating').value = "";
+    document.getElementById('message').value = "";
+}
+</script>
+
+</body>
+</html>

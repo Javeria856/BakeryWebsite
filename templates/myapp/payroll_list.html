@@ -1,0 +1,33 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Payroll{% endblock %}
+
+{% block content %}
+<a href="{% url 'payroll_add' %}" class="btn btn-add">+ Add Payroll</a>
+<br><br>
+
+<table>
+    <tr>
+        <th>Staff</th>
+        <th>Basic Salary</th>
+        <th>Overtime</th>
+        <th>Deductions</th>
+        <th>Net Salary</th>
+        <th>Pay Date</th>
+        <th>Actions</th>
+    </tr>
+    {% for p in payrolls %}
+    <tr>
+        <td>{{ p.staff.name }}</td>
+        <td>{{ p.basic_salary }}</td>
+        <td>{{ p.overtime }}</td>
+        <td>{{ p.deductions }}</td>
+        <td>{{ p.net_salary }}</td>
+        <td>{{ p.pay_date }}</td>
+        <td>
+            <a href="{% url 'payroll_edit' p.id %}" class="btn btn-edit">Edit</a>
+            <a href="{% url 'payroll_delete' p.id %}" class="btn btn-delete">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
